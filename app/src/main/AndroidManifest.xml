@@ -633,6 +633,13 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".FoodJuiceActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"/>
+        <activity
             android:name=".NightscoutBackfillActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"

@@ -29,6 +29,7 @@ import com.eveningoutpost.dexdrip.AddCalibration;
 import com.eveningoutpost.dexdrip.BestGlucose;
 import com.eveningoutpost.dexdrip.DoubleCalibrationActivity;
 import com.eveningoutpost.dexdrip.EditAlertActivity;
+import com.eveningoutpost.dexdrip.FoodJuiceActivity;
 import com.eveningoutpost.dexdrip.Home;
 import com.eveningoutpost.dexdrip.Models.ActiveBgAlert;
 import com.eveningoutpost.dexdrip.Models.AlertType;
@@ -682,6 +683,10 @@ public class Notifications extends IntentService {
 
         }
         b.setContentIntent(resultPendingIntent);
+        Intent juiceIntent = new Intent(mContext, FoodJuiceActivity.class);
+        juiceIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        b.addAction(R.drawable.ic_juice_grey_600_24dp, "juice", PendingIntent.getActivity(mContext, 505505, juiceIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+        b.setStyle(new Notification.MediaStyle());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             b.setLocalOnly(true);
         }
