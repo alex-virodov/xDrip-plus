@@ -224,7 +224,7 @@ public class Treatments extends Model {
         return Treatment;
     }
 
-    private static void pushTreatmentSync(Treatments treatment) {
+    public static void pushTreatmentSync(Treatments treatment) {
         pushTreatmentSync(treatment, true, null); // new entry by default
     }
 
