@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.eveningoutpost.dexdrip.Models.DateUtil;
 import com.eveningoutpost.dexdrip.Models.Treatments;
@@ -22,7 +23,11 @@ import java.util.Date;
 import java.util.UUID;
 
 public class FoodPhotoActivity extends BaseAppCompatActivity {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final PermissionHelper.Permission[] PERMISSIONS_REQUIRED = {
+            PermissionHelper.Permission.WRITE_EXTERNAL_STORAGE,
+            PermissionHelper.Permission.CAMERA
+    };
 
     File pendingImageFile = null;
 
@@ -36,7 +41,18 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
         super.onResume();
 
         if (pendingImageFile == null) {
-            // TODO: need runtime permission!
+            if (!PermissionHelper.hasAllPermissions(this, PERMISSIONS_REQUIRED)) {
+                if (PermissionHelper.shouldShowRationale(this, PERMISSIONS_REQUIRED)) {
+                    Toast.makeText(this,
+                            "Camera and External Storage permissions are needed to run this functionality",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+                // After permission request completes, the activity will resume again.
+                PermissionHelper.requestPermissions(this, PERMISSIONS_REQUIRED);
+                return;
+            }
+
             pendingImageFile = createImageFile();
             Log.d("xxav", "pendingImageFile=" + pendingImageFile);
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -64,7 +80,7 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Treatments.create_note("Food photo " + Uri.fromFile(pendingImageFile), /*timestamp=*/0, /*position=*/-1);
 
-            // TODO: Doesn't seem to work - not in gallery on emulator.
+            // TODO: Doesn't seem to work - not in gallery on emulator. Seem to work on s8 fine.
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri contentUri = Uri.fromFile(pendingImageFile);
             mediaScanIntent.setData(contentUri);
@@ -84,7 +100,6 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
 
     private File createImageFile() {
         try {
-            // TODO: Need runtime permission!
             // Create an image file name
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "xDripFood_" + timeStamp + "_";
