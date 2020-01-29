@@ -62,15 +62,6 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
-
-        Log.d("xxav", "onResume intent = " + getIntent());
-        if (getIntent() != null) {
-            Log.d("xxav", "onResume intent action = " + getIntent().getAction());
-            Log.d("xxav", "onResume intent extra = " + getIntent().getExtras());
-            if (getIntent().getExtras() != null) {
-                Log.d("xxav", "onResume intent testextra = " + getIntent().getExtras().getString("testextra"));
-            }
-        }
     }
 
     @Override
@@ -80,17 +71,15 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Treatments.create_note("Food photo " + Uri.fromFile(pendingImageFile), /*timestamp=*/0, /*position=*/-1);
 
-            // TODO: Doesn't seem to work - not in gallery on emulator. Seem to work on s8 fine.
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri contentUri = Uri.fromFile(pendingImageFile);
             mediaScanIntent.setData(contentUri);
             this.sendBroadcast(mediaScanIntent);
-
-            Intent intent = new Intent(this, Home.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
         }
+        Intent intent = new Intent(this, Home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -103,7 +92,7 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
             // Create an image file name
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "xDripFood_" + timeStamp + "_";
-            // TODO: Deprecated on Q
+            // TODO: Deprecated on Q. Works because targetsdk is 23 now.
             File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             File image = File.createTempFile(
                     imageFileName,  /* prefix */

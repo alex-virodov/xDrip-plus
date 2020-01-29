@@ -693,7 +693,7 @@ public class Notifications extends IntentService {
         foodPhotoIntent.setAction("testaction");
         foodPhotoIntent.putExtra("testextra", "foo");
         b.addAction(R.drawable.ic_food_photo_grey_600_24dp, "juice", PendingIntent.getActivity(mContext, requestCode+1, foodPhotoIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-        b.setStyle(new Notification.MediaStyle());
+        b.setStyle(new Notification.MediaStyle().setShowActionsInCompactView(0,1));
         b.setWhen(0).setPriority(Notification.PRIORITY_MAX);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             b.setLocalOnly(true);
