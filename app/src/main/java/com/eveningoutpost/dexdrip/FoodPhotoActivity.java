@@ -94,10 +94,14 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
             String imageFileName = "xDripFood_" + timeStamp + "_";
             // TODO: Deprecated on Q. Works because targetsdk is 23 now.
             File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            File photoDir = new File(storageDir, "xDripFood");
+            if (!photoDir.exists()) {
+                photoDir.mkdirs();
+            }
             File image = File.createTempFile(
                     imageFileName,  /* prefix */
                     ".jpg",         /* suffix */
-                    storageDir      /* directory */
+                    photoDir      /* directory */
             );
             return image;
         } catch (IOException e) {
