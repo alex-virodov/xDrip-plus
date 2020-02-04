@@ -220,13 +220,48 @@
                     android:paddingTop="2dp"
                     android:src="@drawable/ic_note_plus_grey600_24dp" />
 
+                <ImageButton
+                    android:id="@+id/btnFoodJuice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/lowpredict"
+                    android:layout_below="@+id/btnNote"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@android:color/darker_gray"
+                    android:contentDescription="Juice"
+                    android:gravity="right"
+                    android:onClick="clickFoodJuice"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="2dp"
+                    android:src="@drawable/ic_juice_grey_600_24dp" />
+
+                <ImageButton
+                    android:id="@+id/btnFoodPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/lowpredict"
+                    android:layout_below="@+id/btnFoodJuice"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@android:color/darker_gray"
+                    android:contentDescription="Food Photo"
+                    android:gravity="right"
+                    android:onClick="clickFoodPhoto"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="2dp"
+                    android:src="@drawable/ic_food_photo_grey_600_24dp" />
 
                 <ImageButton
                     android:id="@+id/btnUndo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/btnNote"
-                    android:layout_below="@+id/btnNote"
+                    android:layout_alignStart="@+id/btnFoodPhoto"
+                    android:layout_below="@+id/btnFoodPhoto"
                     android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
 

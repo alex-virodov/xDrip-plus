@@ -3067,6 +3067,17 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
         showNoteTextInputDialog(myitem, timestamp, -1);
     }
 
+    public void clickFoodJuice(View view) {
+        FoodJuiceActivity.createJuiceNote();
+        Home.staticRefreshBGCharts();
+    }
+
+    public void clickFoodPhoto(View view) {
+        Intent foodPhotoIntent = new Intent(this.getApplicationContext(), FoodPhotoActivity.class);
+        foodPhotoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(foodPhotoIntent);
+    }
+
     public void showNoteTextInputDialog(View myitem, final long timestamp, final double position) {
         Log.d(TAG, "showNoteTextInputDialog: ts:" + timestamp + " pos:" + position);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);

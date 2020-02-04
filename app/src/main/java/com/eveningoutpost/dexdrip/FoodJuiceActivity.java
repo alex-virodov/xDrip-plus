@@ -23,6 +23,15 @@ public class FoodJuiceActivity extends BaseAppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        createJuiceNote();
+
+        Intent intent = new Intent(this, Home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    static void createJuiceNote() {
         boolean noteOnly = true;
         if (noteOnly) {
             Treatments.create_note("Juice", /*timestamp=*/0, /*position=*/-1);
@@ -43,11 +52,6 @@ public class FoodJuiceActivity extends BaseAppCompatActivity {
             Treatments.pushTreatmentSync(treatment);
             UndoRedo.addUndoTreatment(treatment.uuid);
         }
-
-        Intent intent = new Intent(this, Home.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 
     @Override
