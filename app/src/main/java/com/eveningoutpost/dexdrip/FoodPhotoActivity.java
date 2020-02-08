@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.eveningoutpost.dexdrip.Models.DateUtil;
+import com.eveningoutpost.dexdrip.Models.JoH;
 import com.eveningoutpost.dexdrip.Models.Treatments;
 import com.eveningoutpost.dexdrip.UtilityModels.UndoRedo;
 
@@ -69,7 +70,12 @@ public class FoodPhotoActivity extends BaseAppCompatActivity {
         Log.d("xxav", "onActivityResult intent = " + getIntent());
         Log.d("xxav", "onActivityResult data = " + data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Treatments.create_note("Food photo " + Uri.fromFile(pendingImageFile), /*timestamp=*/0, /*position=*/-1);
+            long timestamp = 0;
+            if (getIntent().hasExtra("timestamp")) {
+                timestamp = getIntent().getExtras().getLong("timestamp");
+            }
+
+            Treatments.create_note("Food photo " + Uri.fromFile(pendingImageFile), timestamp, /*position=*/-1);
 
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri contentUri = Uri.fromFile(pendingImageFile);

@@ -3089,6 +3089,15 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
         final CheckBox cbx = (CheckBox) dialogView.findViewById(R.id.default_to_voice_input);
         cbx.setChecked(Pref.getBooleanDefaultFalse("default_to_voice_notes"));
 
+        final Button addFoodButton = (Button) dialogView.findViewById(R.id.btnAddFood);
+        addFoodButton.setOnClickListener(v -> {
+            dialog.hide();
+            Intent foodPhotoIntent = new Intent(this.getApplicationContext(), FoodPhotoActivity.class);
+            foodPhotoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            foodPhotoIntent.putExtra("timestamp", timestamp);
+            startActivity(foodPhotoIntent);
+        });
+
         dialogBuilder.setTitle(R.string.treatment_note);
         //dialogBuilder.setMessage("Enter text below");
         dialogBuilder.setPositiveButton(R.string.done, (dialog, whichButton) -> {
