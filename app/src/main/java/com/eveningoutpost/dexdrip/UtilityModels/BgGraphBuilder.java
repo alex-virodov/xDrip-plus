@@ -2,16 +2,20 @@ package com.eveningoutpost.dexdrip.UtilityModels;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eveningoutpost.dexdrip.AddCalibration;
@@ -2286,6 +2290,7 @@ public class BgGraphBuilder {
             //Won't give the exact time of the reading but the time on the grid: close enough.
             final Long time = (real_timestamp > 0) ? real_timestamp : ((long) pointValue.getX()) * FUZZER;
             final double ypos = pointValue.getY();
+            final String alternateFinal = alternate;
 
             final String message;
 
@@ -2313,7 +2318,22 @@ public class BgGraphBuilder {
                             Home.startHomeWithExtra(xdrip.getAppContext(), Home.CREATE_TREATMENT_NOTE, time.toString(), Double.toString(ypos));
                         }
                     };
-                    Home.snackBar(R.string.add_note, message, mOnClickListener, callerActivity);
+                    Home.snackBar(R.string.add_note, message, mOnClickListener, callerActivity, snackbar -> {
+                        Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout)snackbar.getView();
+                        TextView textView = (TextView) layout.findViewById(android.support.design.R.id.snackbar_text);
+                        textView.setOnClickListener(view -> {
+                            int firstFileUrl = alternateFinal.indexOf("file://");
+                            int firstJpgExt = alternateFinal.indexOf(".jpg");
+
+                            if (firstFileUrl != -1 && firstJpgExt != -1) {
+                                String fileUrlString = alternateFinal.substring(firstFileUrl, firstJpgExt + ".jpg".length());
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);
+                                intent.setDataAndType(Uri.parse(fileUrlString), "image/*");
+                                callerActivity.startActivity(intent);
+                            }
+                        });
+                    });
                     break;
             }
         }

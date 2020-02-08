@@ -32,6 +32,7 @@ import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -158,6 +159,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
@@ -3352,14 +3354,24 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
     }
 
     public static void snackBar(int buttonString, String message, View.OnClickListener mOnClickListener, Activity activity) {
+        snackBar(buttonString, message, mOnClickListener, activity, snackbar -> {});
+    }
 
-        android.support.design.widget.Snackbar.make(
+    public interface SnackbarEditor {
+        void edit(Snackbar snackbar);
+    }
 
-                activity.findViewById(android.R.id.content),
-                message, android.support.design.widget.Snackbar.LENGTH_LONG)
-                .setAction(buttonString, mOnClickListener)
-                //.setActionTextColor(Color.RED)
-                .show();
+    public static void snackBar(int buttonString, String message, View.OnClickListener mOnClickListener, Activity activity, SnackbarEditor snackbarEditor) {
+        Snackbar snackbar =
+                android.support.design.widget.Snackbar.make(
+
+                        activity.findViewById(android.R.id.content),
+                        message, android.support.design.widget.Snackbar.LENGTH_LONG)
+                        .setAction(buttonString, mOnClickListener);
+        //.setActionTextColor(Color.RED)
+        snackbarEditor.edit(snackbar);
+        snackbar.show();
+
     }
 
     public static void staticBlockUI(Activity context, boolean state) {
