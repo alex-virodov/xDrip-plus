@@ -109,9 +109,10 @@ import com.eveningoutpost.dexdrip.databinding.ActivityHomeBinding;
 import com.eveningoutpost.dexdrip.databinding.ActivityHomeShelfSettingsBinding;
 import com.eveningoutpost.dexdrip.databinding.PopupInitialStatusHelperBinding;
 import com.eveningoutpost.dexdrip.eassist.EmergencyAssistActivity;
+import com.eveningoutpost.dexdrip.food.FoodJuiceActivity;
+import com.eveningoutpost.dexdrip.food.FoodPhotoActivity2;
 import com.eveningoutpost.dexdrip.insulin.inpen.InPenEntry;
 import com.eveningoutpost.dexdrip.insulin.pendiq.Pendiq;
-import com.eveningoutpost.dexdrip.languageeditor.LanguageEditor;
 import com.eveningoutpost.dexdrip.profileeditor.DatePickerFragment;
 import com.eveningoutpost.dexdrip.profileeditor.ProfileAdapter;
 import com.eveningoutpost.dexdrip.ui.BaseShelf;
@@ -127,7 +128,6 @@ import com.eveningoutpost.dexdrip.ui.graphic.TrendArrowFactory;
 import com.eveningoutpost.dexdrip.utils.ActivityWithMenu;
 import com.eveningoutpost.dexdrip.utils.BgToSpeech;
 import com.eveningoutpost.dexdrip.utils.DatabaseUtil;
-import com.eveningoutpost.dexdrip.utils.DexCollectionHelper;
 import com.eveningoutpost.dexdrip.utils.DexCollectionType;
 import com.eveningoutpost.dexdrip.utils.DisplayQRCode;
 import com.eveningoutpost.dexdrip.utils.LibreTrendGraph;
@@ -159,7 +159,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
@@ -3075,8 +3074,7 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
     }
 
     public void clickFoodPhoto(View view) {
-        Intent foodPhotoIntent = new Intent(this.getApplicationContext(), FoodPhotoActivity.class);
-        foodPhotoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent foodPhotoIntent = new Intent(this.getApplicationContext(), FoodPhotoActivity2.class);
         startActivity(foodPhotoIntent);
     }
 
@@ -3094,8 +3092,7 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
         final Button addFoodButton = (Button) dialogView.findViewById(R.id.btnAddFood);
         addFoodButton.setOnClickListener(v -> {
             dialog.hide();
-            Intent foodPhotoIntent = new Intent(this.getApplicationContext(), FoodPhotoActivity.class);
-            foodPhotoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Intent foodPhotoIntent = new Intent(this.getApplicationContext(), FoodPhotoActivity2.class);
             foodPhotoIntent.putExtra("timestamp", timestamp);
             startActivity(foodPhotoIntent);
         });

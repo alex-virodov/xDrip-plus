@@ -1,10 +1,12 @@
-package com.eveningoutpost.dexdrip;
+package com.eveningoutpost.dexdrip.food;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 
+import com.eveningoutpost.dexdrip.BaseAppCompatActivity;
+import com.eveningoutpost.dexdrip.Home;
 import com.eveningoutpost.dexdrip.Models.DateUtil;
 import com.eveningoutpost.dexdrip.Models.JoH;
 import com.eveningoutpost.dexdrip.Models.Treatments;
@@ -31,7 +33,7 @@ public class FoodJuiceActivity extends BaseAppCompatActivity {
         finish();
     }
 
-    static void createJuiceNote() {
+    public static void createJuiceNote() {
         boolean noteOnly = true;
         if (noteOnly) {
             Treatments.create_note("Juice", /*timestamp=*/0, /*position=*/-1);

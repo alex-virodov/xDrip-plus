@@ -1,4 +1,4 @@
-package com.eveningoutpost.dexdrip;
+package com.eveningoutpost.dexdrip.food;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,7 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 public class PermissionHelper {
-    enum Permission {
+    public enum Permission {
         CAMERA(Manifest.permission.CAMERA),
         WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE),
         ;

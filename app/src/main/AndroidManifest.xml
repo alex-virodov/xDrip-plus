@@ -635,19 +635,23 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".FoodJuiceActivity"
+            android:name=".food.FoodJuiceActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"
             android:taskAffinity=""
             android:excludeFromRecents="true"/>
         <activity
-            android:name=".FoodPhotoActivity"
+            android:name=".food.FoodPhotoActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"
             android:taskAffinity=""
             android:excludeFromRecents="true"/>
+        <activity
+            android:name=".food.FoodPhotoActivity2"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"/>
         <activity
             android:name=".NightscoutBackfillActivity"
             android:configChanges="orientation|screenSize"
