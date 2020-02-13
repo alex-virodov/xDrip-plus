@@ -1,24 +1,32 @@
 package com.eveningoutpost.dexdrip.food;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.activeandroid.query.Select;
 import com.eveningoutpost.dexdrip.BaseAppCompatActivity;
+import com.eveningoutpost.dexdrip.Home;
+import com.eveningoutpost.dexdrip.Models.Treatments;
 import com.eveningoutpost.dexdrip.R;
 import com.eveningoutpost.dexdrip.food.FoodDatesFragment;
 import com.eveningoutpost.dexdrip.food.FoodListFragment;
 import com.eveningoutpost.dexdrip.food.FoodRecord;
-import com.eveningoutpost.dexdrip.food.Treatment;
 import com.eveningoutpost.dexdrip.xdrip;
 
 import java.io.File;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FoodPhotoActivity2 extends BaseAppCompatActivity {
-    FoodListFragment foodListFragment;
-    FoodDatesFragment foodDatesFragment;
+    private FoodListFragment foodListFragment;
+    private FoodDatesFragment foodDatesFragment;
+    private FoodRecord currentFoodRecord = null;
 
     @Override
     protected void onResume() {
@@ -26,35 +34,31 @@ public class FoodPhotoActivity2 extends BaseAppCompatActivity {
         super.onResume();
     }
 
-    private static final Treatment[] TEST_TREATMENTS = new Treatment[] {
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200204_124357_7405432031083100582.jpg", 1580849041499L),
-            new Treatment("Prime 722  ? Rewind 722", 1581177257000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_085123_1715361242884717933.jpg", 1581173100000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_085150_7552276985565858757.jpg", 1581180719874L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_093242_5853572484031700840.jpg", 1581131400000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_093242_5853572484031700840.jpg", 1581090200000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_093242_5853572484031700841.jpg", 1581090200000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_093242_5853572484031700842.jpg", 1581090200000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_093242_5853572484031700843.jpg", 1581090200000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_093242_5853572484031700844.jpg", 1581090200000L),
-            new Treatment("Food photo file:///storage/emulated/0/Pictures/xDripFood/xDripFood_20200208_093242_5853572484031700845.jpg", 1581090200000L),
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         xdrip.checkForcedEnglish(xdrip.getAppContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
 
+        List<Treatments> treatments = Treatments.latest(100);
+
         Map<File, FoodRecord> foodRecordMap = new LinkedHashMap<>();
-        for (Treatment treatment : TEST_TREATMENTS) {
+        for (Treatments treatment : treatments) {
             FoodRecord.addTreatment(foodRecordMap, treatment);
         }
 
         foodListFragment = new FoodListFragment(this, foodRecordMap);
         foodDatesFragment = new FoodDatesFragment(this);
+        final Button addButton = findViewById(R.id.add_button);
+        final EditText noteEditText = findViewById(R.id.food_note_edit_text);
+        addButton.setVisibility(View.INVISIBLE); // TODO: Enabled is better, but color is same now.
+        noteEditText.setVisibility(View.INVISIBLE);
+
         foodListFragment.onSelected((FoodRecord foodRecord) -> {
+            currentFoodRecord = foodRecord;
             foodDatesFragment.setTreatments(foodRecord.getTreatments());
+            addButton.setVisibility(View.VISIBLE);
+            noteEditText.setVisibility(View.VISIBLE);
         });
     }
 
@@ -66,5 +70,15 @@ public class FoodPhotoActivity2 extends BaseAppCompatActivity {
             foodPhotoIntent.putExtra("timestamp", timestamp);
         }
         startActivity(foodPhotoIntent);
+    }
+
+    public void clickAdd(View view) {
+        long timestamp = 0;
+        if (getIntent().hasExtra("timestamp")) {
+            timestamp = getIntent().getExtras().getLong("timestamp");
+        }
+
+        Treatments.create_note("Food photo " + Uri.fromFile(currentFoodRecord.getImageFile()), timestamp, /*position=*/-1);
+        finish();
     }
 }

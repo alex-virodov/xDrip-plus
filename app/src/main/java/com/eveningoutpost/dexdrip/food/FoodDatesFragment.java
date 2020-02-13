@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.eveningoutpost.dexdrip.Models.Treatments;
 import com.eveningoutpost.dexdrip.R;
 
 import java.text.SimpleDateFormat;
@@ -27,7 +28,7 @@ public class FoodDatesFragment {
         foodDatesList.setAdapter(adapter);
     }
 
-    public void setTreatments(ArrayList<Treatment> treatments) {
+    public void setTreatments(ArrayList<Treatments> treatments) {
         adapter.setTreatments(treatments);
     }
 
@@ -46,8 +47,8 @@ public class FoodDatesFragment {
     }
 
     static class FoodDatesListAdapter extends RecyclerView.Adapter<FoodDatesListViewHolder> {
-        private static final ArrayList<Treatment> EMPTY_TREATMENTS = new ArrayList<>();
-        private ArrayList<Treatment> treatments = EMPTY_TREATMENTS;
+        private static final ArrayList<Treatments> EMPTY_TREATMENTS = new ArrayList<>();
+        private ArrayList<Treatments> treatments = EMPTY_TREATMENTS;
         int selected = -1;
         private static final SimpleDateFormat FORMATTER =
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -65,7 +66,7 @@ public class FoodDatesFragment {
 
         @Override
         public void onBindViewHolder(@NonNull FoodDatesListViewHolder holder, int position) {
-            Treatment treatment = treatments.get(position);
+            Treatments treatment = treatments.get(position);
             Date date = new Date(treatment.timestamp);
             holder.dateTextView.setText(FORMATTER.format(date));
             holder.position = position;
@@ -85,7 +86,7 @@ public class FoodDatesFragment {
             notifyItemChanged(selected);
         }
 
-        public void setTreatments(ArrayList<Treatment> treatments) {
+        public void setTreatments(ArrayList<Treatments> treatments) {
             this.treatments = treatments;
             notifyDataSetChanged();
         }
