@@ -25,15 +25,15 @@
             android:id="@+id/food_dates_list"
             android:layout_width="0dp"
             android:layout_height="150dp"
-            android:background="#ff0000"
+            android:background="#333333"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/food_list"
             app:layout_constraintTop_toBottomOf="@id/new_photo_button" />
 
-        <TextView
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/chart"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="#00ff00"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/food_dates_list"
             app:layout_constraintEnd_toStartOf="@+id/food_list"
