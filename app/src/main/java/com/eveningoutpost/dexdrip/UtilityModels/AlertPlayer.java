@@ -354,16 +354,12 @@ public class AlertPlayer {
             // player), as we're modifying the volume, and that may make the music very loud.
             manager.requestAudioFocus(i -> {}, streamType, AudioManager.AUDIOFOCUS_GAIN);
             mediaPlayer.setAudioStreamType(streamType);
-            mediaPlayer.setOnPreparedListener(mp -> {
-                try {
-                    // TODO: not ideal, blocking UI thread. Need to post to handler instead.
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                adjustCurrentVolumeForAlert(streamType, volumeFrac, overrideSilentMode);
-                mediaPlayer.start();
-            });
+            mediaPlayer.setOnPreparedListener(mp ->
+                new Handler().postDelayed(() -> {
+                    adjustCurrentVolumeForAlert(streamType, volumeFrac, overrideSilentMode);
+                    mediaPlayer.start();
+                }, 2000)
+            );
 
             mediaPlayer.setOnCompletionListener(mp -> {
                 Log.i(TAG, "playFile: onCompletion called (finished playing) ");
